@@ -4,6 +4,7 @@ import { useChat } from '../hooks/useChat';
 import { Send, Image, Menu, X } from 'lucide-react';
 import MarkdownContent from '../components/MarkdownContent';
 import MessageActions from '../components/MessageActions';
+import { useAuth } from '../../auth/hooks/useAuth';
 
 
 function Dashboard() {
@@ -14,6 +15,8 @@ function Dashboard() {
     const [inputValue, setInputValue] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
     const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
+const {handleLogout}  = useAuth();
 
     const fileInputRef = useRef(null);
 
@@ -42,6 +45,11 @@ function Dashboard() {
 
 
     const messages = chats.chats[currentChatId]?.messages ?? [];
+
+const handleLogoutFunction = async()=>{
+    await handleLogout();
+}
+
 
     return (
         <div className="flex h-screen bg-gray-900 text-white overflow-hidden relative">
@@ -118,6 +126,7 @@ function Dashboard() {
                 </div>
 
                 <div className="p-3 md:p-4 border-t border-gray-800">
+                  
                     <div className="flex items-center gap-2 md:gap-3 px-2 md:px-4 py-2">
                         <div className="w-8 h-8 rounded-full bg-[#4E868D] flex items-center justify-center text-xs font-bold flex-shrink-0">
                             {user?.username?.charAt(0)?.toUpperCase() || 'U'}
@@ -127,6 +136,9 @@ function Dashboard() {
                             <p className="text-xs text-gray-400 truncate">{user?.email || 'user@example.com'}</p>
                         </div>
                     </div>
+                      <button onClick={handleLogoutFunction} className="w-full text-right px-3 md:px-4 py-2 md:py-2.5  rounded-lg text-xl md:text-sm font-medium transition-colors text-red-500  active:scale-95 cursor-pointer ">
+                        Logout
+                    </button>
                 </div>
             </aside>
 
@@ -189,7 +201,7 @@ function Dashboard() {
 
                     <div ref={messagesEndRef} />
                 </div>
-                
+
                 <div className="w-full p-3 md:p-6">
                     <div className="w-full max-w-4xl mx-auto">
 
