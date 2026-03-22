@@ -14,7 +14,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use(cors({
-    origin: "http://localhost:5173" || "https://chat-application-1-0mdx.onrender.com",
+    origin: ["http://localhost:5173", "https://chat-application-1-0mdx.onrender.com"],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
 }));
