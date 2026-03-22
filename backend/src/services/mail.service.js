@@ -16,3 +16,6 @@ export const sendEmail = async ({ to, subject, html }) => {
     console.error("Email error:", error.message);
   }
 };
+
+
+console.log("Resend API Key:", process.env.RESEND_API_KEY)
