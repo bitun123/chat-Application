@@ -8,6 +8,7 @@ function Register() {
   const [username, setusername] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate()
   const { handleRegister } = useAuth()
   const { user, loading, errors = {} } = useSelector((state) => state.auth)
@@ -81,12 +82,12 @@ function Register() {
             </div>
 
             {/* Password Field */}
-            <div>
+            <div className='relative'>
               <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
                 Password
               </label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
                 value={password}
@@ -97,6 +98,17 @@ function Register() {
                   : 'border-gray-600 focus:border-[#60A6AF]'
                   } text-white placeholder-gray-400`}
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute  top-10 right-2 cursor-pointer  "
+              >
+                {showPassword ? (
+                  <span className="text-gray-400">👁️</span>
+                ) : (
+                  <span className="text-gray-400">🔒</span>
+                )}
+              </button>
               {errors.password && (
                 <p className="mt-1 text-sm text-red-400">{errors.password}</p>
               )}

@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { useNavigate, Link, replace, Navigate } from 'react-router-dom'
+import { useNavigate, Link, Navigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useSelector } from "react-redux";
 
 function Login() {
   const [email, setemail] = useState("")
   const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate()
   const { user, loading, errors = {} } = useSelector((state) => state.auth)
   const { handleLogin, handleRecentVerifiedEmail } = useAuth()
@@ -71,22 +72,34 @@ function Login() {
             </div>
 
 
-            <div>
+            <div className='relative'>
               <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
                 Password
               </label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className={`w-full px-4 py-3 rounded-lg bg-gray-700 border transition-colors duration-200 outline-none ${errors.password || errors.submit
+                className={` w-full px-4 py-3 rounded-lg bg-gray-700 border transition-colors duration-200 outline-none ${errors.password || errors.submit
                   ? 'border-red-500 focus:border-red-400'
                   : 'border-gray-600 focus:border-[#60A6AF]'
                   } text-white placeholder-gray-400`}
               />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute  top-10 right-2 cursor-pointer  "
+              >
+                {showPassword ? (
+                  <span className="text-gray-400">👁️</span>
+                ) : (
+                  <span className="text-gray-400">🔒</span>
+                )}
+              </button>
               {errors.password && (
                 <p className="mt-1 text-sm text-red-400">{errors.password}</p>
               )}
