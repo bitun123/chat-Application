@@ -1,0 +1,23 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="60" cy="60" r="55" fill="#4F46E5"/>
+
+  <!-- Chat bubble -->
+  <path d="M30 40
+           Q30 25, 50 25
+           L70 25
+           Q90 25, 90 40
+           L90 60
+           Q90 75, 70 75
+           L50 75
+           L40 85
+           L42 75
+           Q30 75, 30 60
+           Z"
+        fill="white"/>
+
+  <!-- Message dots -->
+  <circle cx="50" cy="50" r="4" fill="#4F46E5"/>
+  <circle cx="60" cy="50" r="4" fill="#4F46E5"/>
+  <circle cx="70" cy="50" r="4" fill="#4F46E5"/>
+</svg>
