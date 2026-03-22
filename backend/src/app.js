@@ -13,6 +13,7 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Enable CORS for specific origins and allow credentials
 app.use(cors({
     origin: ["http://localhost:5173", "https://chat-application-1-0mdx.onrender.com"],
     credentials: true,
