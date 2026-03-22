@@ -3,36 +3,35 @@ import jwt from "jsonwebtoken";
 import { sendEmail } from "../services/mail.service.js";
 
 export async function registerController(req, res) {
-try {
-  
+  try {
     const { username, email, password } = req.body;
 
-  const isUserAlreadyExists = await userModel.findOne({
-    $or: [{ email }, { username }],
-  });
-
-  if (isUserAlreadyExists) {
-    return res.status(400).json({
-      message: "User with this email or username already exists",
-      success: false,
-      err: "User already exists",
+    const isUserAlreadyExists = await userModel.findOne({
+      $or: [{ email }, { username }],
     });
-  }
 
-  const user = await userModel.create({ username, email, password });
+    if (isUserAlreadyExists) {
+      return res.status(400).json({
+        message: "User with this email or username already exists",
+        success: false,
+        err: "User already exists",
+      });
+    }
 
-  const emailVerificationToken = jwt.sign(
-    {
-      email: user.email,
-    },
-    process.env.JWT_SECRET_KEY,
-  );
+    const user = await userModel.create({ username, email, password });
 
-  res.cookie("token", emailVerificationToken);
-  await sendEmail({
-    to: email,
-    subject: "Welcome to Perplexity!",
-    html: `
+    const emailVerificationToken = jwt.sign(
+      {
+        email: user.email,
+      },
+      process.env.JWT_SECRET_KEY,
+    );
+
+    res.cookie("token", emailVerificationToken);
+    await sendEmail({
+      to: email,
+      subject: "Welcome to Perplexity!",
+      html: `
                 <p>Hi ${username},</p>
                 <p>Thank you for registering at <strong>Perplexity</strong>. We're excited to have you on board!</p>
                 <p>Please verify your email address by clicking the link below:</p>
@@ -40,25 +39,25 @@ try {
                 <p>If you did not create an account, please ignore this email.</p>
                 <p>Best regards,<br>The Perplexity Team</p>
         `,
-  });
+    });
 
-  res.status(201).json({
-    message: "User registered successfully",
-    success: true,
-    user: {
-      id: user._id,
-      username: user.username,
-      email: user.email,
-    },
-  });
-} catch (error) {
-
-  res.status(500).json({
-    message: "An error occurred while registering the user",
-    success: false,
-    err: error.message,
-  });
-}
+    res.status(201).json({
+      message:
+        "User registered successfully. Please check your email to verify your account.",
+      success: true,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "An error occurred while registering the user",
+      success: false,
+      err: error.message,
+    });
+  }
 }
 
 async function verifyEmailController(req, res) {
@@ -103,18 +102,18 @@ async function verifyEmailController(req, res) {
 
 async function recentEmailController(req, res) {
   try {
-    // Make sure cookie-parser middleware is used in your Express app
     const token = req.cookies?.token;
 
-    console.log(token);
     const { email } = await userModel
       .findOne()
       .sort({ createdAt: -1 })
       .select("email -_id");
     const user = await userModel.findOne({ email });
+
+
     if (user.isVerified) {
       await sendEmail({
-        to: email,
+        to: user.email,
         subject: "Welcome to Perplexity!",
         html: `
           <p>Hi ${user.username},</p>
@@ -124,7 +123,7 @@ async function recentEmailController(req, res) {
       });
     } else {
       await sendEmail({
-        to: email,
+        to: user.email,
         subject: "Welcome to Perplexity!",
         html: `
                 <p>Hi ${user.username},</p>
@@ -141,7 +140,10 @@ async function recentEmailController(req, res) {
       message: "Email send successfully",
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      message: "An error occurred while sending email",
+      err: error.message,
+    });
   }
 }
 
@@ -197,7 +199,6 @@ async function loginController(req, res) {
       },
       token,
     });
-    
   } catch (error) {
     console.log(error);
     res.status(500).json({

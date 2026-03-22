@@ -21,9 +21,9 @@ const handleRegister = async ({ username, email, password }) => {
     dispatch(setLoading(true));
     dispatch(setError(null));
 
-    await register({ username, email, password });
+  const response =   await register({ username, email, password });
 
-    toast.success("Registration successful! ✅", {
+    toast.success(response.message, {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -48,7 +48,7 @@ const handleRegister = async ({ username, email, password }) => {
     });
 
     dispatch(setError(message));
-
+      throw error;
   } finally {
     dispatch(setLoading(false));
   }
@@ -62,7 +62,7 @@ const handleRegister = async ({ username, email, password }) => {
       const response = await login({ email, password });
       dispatch(setUser(response.user));
 
-      toast.success("Login successful! ✅", {
+      toast.success(response.message, {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -136,6 +136,15 @@ const handleRegister = async ({ username, email, password }) => {
       dispatch(setError(null));
 
       const response = await recentVerifiedEmail();
+      toast.success(response.message, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
       return response.email;
 
     } catch (error) {

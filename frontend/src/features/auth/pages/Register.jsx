@@ -20,7 +20,10 @@ function Register() {
     } catch (error) {
       console.error("Registration error:", error);
     }
+
   }
+
+  
   if (!loading && user) {
     return <Navigate to="/" replace={true} />
   }
@@ -28,16 +31,16 @@ function Register() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        {/* Header */}
+     
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-white mb-2">Create Account</h1>
           <p className="text-gray-400">Join us today</p>
         </div>
 
-        {/* Form Container */}
+
         <div className="bg-gray-800 rounded-lg shadow-xl p-8 border border-gray-700">
           <form className="space-y-5" onSubmit={handleSubmit}>
-            {/* Username Field */}
+  
             <div>
               <label htmlFor="username" className="block text-sm font-medium text-gray-300 mb-2">
                 Username
@@ -59,7 +62,7 @@ function Register() {
               )}
             </div>
 
-            {/* Email Field */}
+   
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
                 Email Address
@@ -81,7 +84,7 @@ function Register() {
               )}
             </div>
 
-            {/* Password Field */}
+
             <div className='relative'>
               <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
                 Password
@@ -114,14 +117,14 @@ function Register() {
               )}
             </div>
 
-            {/* Submit Error */}
+
             {errors.submit && (
               <div className="p-3 rounded-lg bg-red-900 border border-red-700">
                 <p className="text-red-200 text-sm">{errors.submit}</p>
               </div>
             )}
 
-            {/* Submit Button */}
+   
             <button
               type="submit"
               disabled={loading}
@@ -138,7 +141,7 @@ function Register() {
             </button>
           </form>
 
-          {/* Footer - Login Link */}
+         
           <div className="mt-6 text-center">
             <p className="text-gray-400">
               Already have an account?{' '}
@@ -152,7 +155,7 @@ function Register() {
           </div>
         </div>
 
-        {/* Extra Info */}
+   
         <p className="text-center text-gray-500 text-xs mt-6">
           © 2024 Your Company. All rights reserved.
         </p>

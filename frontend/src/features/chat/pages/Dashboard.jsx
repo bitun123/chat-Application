@@ -17,17 +17,15 @@ function Dashboard() {
     const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
     const { handleLogout } = useAuth();
-
-    const fileInputRef = useRef(null);
-
     const messagesEndRef = useRef(null);
 
-    // ✅ Auto scroll on new messages / tokens
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [chats.chats[currentChatId]?.messages?.length,
     chats.chats[currentChatId]?.messages?.at(-1)?.content]);
 
+
+    
     useEffect(() => {
         chat.initializeSocketConnection();
         chat.handleGetChats();
@@ -53,14 +51,13 @@ function Dashboard() {
 
     return (
         <div className="flex h-screen bg-gray-900 text-white overflow-hidden relative">
-            {/* Mobile sidebar with overlay */}
             {isMobileSidebarOpen && (
                 <div
                     className="md:hidden fixed inset-0 z-30 bg-black/50"
                     onClick={() => setIsMobileSidebarOpen(false)}
                 />
             )}
-            {/* Mobile Sidebar - no change needed, already works */}
+
             <aside
                 className={`md:hidden fixed left-0 top-0 h-screen w-64 bg-gray-950 border-r border-gray-800 flex flex-col z-40 transition-transform duration-300 ease-in-out ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
                     }`}
