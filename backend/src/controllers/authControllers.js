@@ -75,7 +75,6 @@ async function verifyEmailController(req, res) {
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
   } catch (error) {
-    console.log(error);
     return res.status(400).json({
       success: false,
       message: "Invalid or expired token",
@@ -200,7 +199,6 @@ async function loginController(req, res) {
       token,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: "An error occurred while logging in",
       success: false,
@@ -212,7 +210,6 @@ async function loginController(req, res) {
 async function getMeController(req, res) {
   try {
     const userId = req.user.id;
-    console.log(userId);
     const user = await userModel.findById(userId).select("-password");
 
     if (!user) {
@@ -228,7 +225,6 @@ async function getMeController(req, res) {
       user,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: "An error occurred while fetching user data",
       success: false,
@@ -253,7 +249,6 @@ async function logoutController(req, res) {
       success: true,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: "An error occurred while logging out",
       success: false,
