@@ -1,16 +1,17 @@
 import express from 'express';
 import dotenv from "dotenv";
+dotenv.config();
 import cookie from 'cookie-parser';
 import cors from 'cors';
-
-dotenv.config();
-
-
-
+import { fileURLToPath } from "url";
+import path from 'path';
 import authRoutes from "../src/routes/auth.route.js";
 import chatRoutes from "../src/routes/chat.routes.js";
 
 const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(cors({
     origin: "http://localhost:5173" ,
@@ -21,11 +22,18 @@ app.use(cors({
 app.use(express.json());
 app.use(cookie());
 
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "../public")))// Serve static files from the "public" directory
 
 app.use("/api/auth", authRoutes);
 app.use("/api/chats", chatRoutes);
 
+
+
+
+
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, "../public", "index.html"));
+});
 
 
 export default app;

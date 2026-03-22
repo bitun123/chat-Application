@@ -16,7 +16,7 @@ function Dashboard() {
     const [selectedImage, setSelectedImage] = useState(null);
     const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
-const {handleLogout}  = useAuth();
+    const { handleLogout } = useAuth();
 
     const fileInputRef = useRef(null);
 
@@ -46,9 +46,9 @@ const {handleLogout}  = useAuth();
 
     const messages = chats.chats[currentChatId]?.messages ?? [];
 
-const handleLogoutFunction = async()=>{
-    await handleLogout();
-}
+    const handleLogoutFunction = async () => {
+        await handleLogout();
+    }
 
 
     return (
@@ -88,8 +88,8 @@ const handleLogoutFunction = async()=>{
                                 setIsMobileSidebarOpen(false);
                             }}
                             className={`w-full cursor-pointer rounded-lg px-3 py-2 text-left text-sm font-medium transition truncate ${currentChatId === c.id
-                                    ? 'bg-gray-800 text-white'
-                                    : 'bg-gray-950 text-gray-300 hover:bg-gray-800 hover:text-white'
+                                ? 'bg-gray-800 text-white'
+                                : 'bg-gray-950 text-gray-300 hover:bg-gray-800 hover:text-white'
                                 }`}
                             title={c.title}
                         >
@@ -115,8 +115,8 @@ const handleLogoutFunction = async()=>{
                             type="button"
                             onClick={() => chat.handleOpenChat(c.id)}
                             className={`w-full cursor-pointer rounded-lg md:rounded-xl px-2 md:px-3 py-2 text-left text-xs md:text-sm font-medium transition truncate ${currentChatId === c.id
-                                    ? 'bg-gray-800 text-white'
-                                    : 'bg-gray-950 text-gray-300 hover:bg-gray-800 hover:text-white'
+                                ? 'bg-gray-800 text-white'
+                                : 'bg-gray-950 text-gray-300 hover:bg-gray-800 hover:text-white'
                                 }`}
                             title={c.title}
                         >
@@ -126,7 +126,7 @@ const handleLogoutFunction = async()=>{
                 </div>
 
                 <div className="p-3 md:p-4 border-t border-gray-800">
-                  
+
                     <div className="flex items-center gap-2 md:gap-3 px-2 md:px-4 py-2">
                         <div className="w-8 h-8 rounded-full bg-[#4E868D] flex items-center justify-center text-xs font-bold flex-shrink-0">
                             {user?.username?.charAt(0)?.toUpperCase() || 'U'}
@@ -136,7 +136,7 @@ const handleLogoutFunction = async()=>{
                             <p className="text-xs text-gray-400 truncate">{user?.email || 'user@example.com'}</p>
                         </div>
                     </div>
-                      <button onClick={handleLogoutFunction} className="w-full text-right px-3 md:px-4 py-2 md:py-2.5  rounded-lg text-xl md:text-sm font-medium transition-colors text-red-500  active:scale-95 cursor-pointer ">
+                    <button onClick={handleLogoutFunction} className="w-full text-right px-3 md:px-4 py-2 md:py-2.5  rounded-lg text-xl md:text-sm font-medium transition-colors text-red-500  active:scale-95 cursor-pointer ">
                         Logout
                     </button>
                 </div>
@@ -144,7 +144,7 @@ const handleLogoutFunction = async()=>{
 
             <main className="flex-1 flex flex-col justify-content items-center w-full bg-gray-950 overflow-hidden">
 
-       
+
                 <div className="md:hidden w-full px-4 py-3 border-b border-gray-800 flex items-center gap-3">
                     <button
                         onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
