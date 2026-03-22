@@ -1,30 +1,18 @@
-import nodemailer from "nodemailer";
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,           // ✅ NOT 465
-  secure: false,       // ✅ IMPORTANT
-  auth: {
-    type: "OAuth2",
-    user: process.env.GOOGLE_USER,
-    clientId: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
-  },
-  tls: {
-    rejectUnauthorized: false,
-  },
-  family: 4,           // ✅ fix network issue
-});
+import { Resend } from "resend";
 
-export async function sendEmail({ to, subject, html, text }) {
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-    const mailOptions = {
-        from: process.env.GOOGLE_USER,
-        to,
-        subject,
-        html,
-        text
-    };
+export const sendEmail = async ({ to, subject, html }) => {
+  try {
+    const response = await resend.emails.send({
+      from: "onboarding@resend.dev", // default test sender
+      to,
+      subject,
+      html,
+    });
 
-    const details = await transporter.sendMail(mailOptions);
-}
+    console.log("Email sent:", response);
+  } catch (error) {
+    console.error("Email error:", error.message);
+  }
+};
